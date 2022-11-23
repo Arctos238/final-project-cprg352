@@ -43,7 +43,7 @@ public class LoginServlet extends HttpServlet {
         this.getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
     }
 
-   /**
+    /**
      * Handles the HTTP <code>POST</code> method.
      *
      * @param request servlet request
@@ -57,17 +57,23 @@ public class LoginServlet extends HttpServlet {
         String userEmail = request.getParameter("userEmail");
         String userPassword = request.getParameter("userPassword");
         UserService userService = new UserService();
-        
+
         User user = userService.getUser(userEmail, userPassword);
-        
-        if (user != null) {
+
+        if (user != null && user.getActive()) {
             request.getSession().setAttribute("user", user);
             response.sendRedirect("home");
             return;
         }
-        
-        String message = "Incorrect Email/Password. Please Try Again";
-        
+
+        String message;
+
+        if (user != null && !user.getActive()) {
+            message = "You are not active please contact a system admin to reactivate your account";
+        } else {
+            message = "Incorrect Email/Password. Please Try Again";
+        }
+
         request.setAttribute("message", message);
 
         this.getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);

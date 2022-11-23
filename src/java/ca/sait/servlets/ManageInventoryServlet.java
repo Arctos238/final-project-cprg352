@@ -30,7 +30,9 @@ public class ManageInventoryServlet extends HttpServlet {
             throws ServletException, IOException {
         User user = (User) request.getSession().getAttribute("user");
         String action = request.getParameter("action");
- 
+        
+        request.setAttribute("selectedUser", user);
+        
         if (action != null && action.equals("logout")) {
             request.getSession().invalidate();
             response.sendRedirect("home");

@@ -25,42 +25,7 @@ import javax.persistence.EntityManagerFactory;
  */
 public class ItemDB {
 
-    public Vector<Item> getAll(User user) {
-        Connection conn = ConnectionPool.getInstance().getConnection();
-        Vector<Item> items = new Vector();
-        
-        try {
-
-            Statement stmt = conn.createStatement();
-
-            ResultSet rs = stmt.executeQuery("SELECT category_name, item_name, price \n"
-                    + "FROM user\n"
-                    + "JOIN item\n"
-                    + "ON user.email = item.owner\n"
-                    + "JOIN category\n"
-                    + "ON item.category = category.category_id"
-                    + "WHERE email = \"" + user.getEmail() + "\"");
-
-            while(rs.next()) {
-                String category_name = rs.getString(1);
-            }
-
-            conn.close();
-
-            return items;
-
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            try {
-                conn.close();
-            } catch (SQLException ex1) {
-                Logger.getLogger(UserDB.class.getName()).log(Level.SEVERE, null, ex1);
-                return null;
-            }
-
-            return null;
-        }
-    }
+  
 
     public List<Item> getAll() {
         EntityManagerFactory emFactory = DBUtil.getEmFactory();

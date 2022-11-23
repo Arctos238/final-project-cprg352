@@ -6,11 +6,8 @@ package ca.sait.servlets;
 
 import ca.sait.models.Role;
 import ca.sait.models.User;
-import ca.sait.services.RoleService;
 import ca.sait.services.UserService;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Vector;
 import java.util.regex.Pattern;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -77,6 +74,7 @@ public class RegisterServlet extends HttpServlet {
 
             if (success) {
                 response.sendRedirect("home");
+                request.getSession().setAttribute("message", "Account Created!");
                 return;
             } else {
                 message = "That email is already in use";

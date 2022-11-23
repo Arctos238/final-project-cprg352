@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
 
 /**
  *
@@ -28,115 +29,19 @@ public class UserDB {
     public UserDB() {
 
     }
-
-    public User getUser(String userEmail, String userPassword) {
-        Connection conn = ConnectionPool.getInstance().getConnection();
-
-        try {
-
-            Statement stmt = conn.createStatement();
-
-            ResultSet rs = stmt.executeQuery("SELECT * FROM user WHERE email = \"" + userEmail + "\" AND password = \"" + userPassword + "\"");
-            
-            rs.next();
-            boolean userActive = (rs.getInt(2) == 1) ? true : false;
-            String userFirstName = rs.getString(3);
-            String userLastName = rs.getString(4);
-            int role = rs.getInt(6);
-
-            Role userRole = null;
-            
-            RoleService roleService = new RoleService();
-            
-            Vector<Role> roles = roleService.getAll();
-
-            for (int i = 0; i < roles.size(); i++) {
-                if (role == roles.get(i).getRoleId()) {
-                    userRole = roles.get(i);
-                }
-            }
-
-            User user = new User(userEmail, userActive, userFirstName, userLastName, userPassword);
-            
-            user.setRole(userRole);
-
-            conn.close();
-            
-            return user;
-
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            try {
-                conn.close();
-            } catch (SQLException ex1) {
-                Logger.getLogger(UserDB.class.getName()).log(Level.SEVERE, null, ex1);
-                return null;
-            }
-            
-            return null;
-        }
-    }
-    
-    private User checkUserExists(String userEmail) {
-        Connection conn = ConnectionPool.getInstance().getConnection();
-
-        try {
-
-            Statement stmt = conn.createStatement();
-
-            ResultSet rs = stmt.executeQuery("SELECT * FROM user WHERE email = \"" + userEmail + "\"");
-            
-            rs.next();
-            boolean userActive = (rs.getInt(2) == 1) ? true : false;
-            String userFirstName = rs.getString(3);
-            String userLastName = rs.getString(4);
-            String userPassword = rs.getString(5);
-            int role = rs.getInt(6);
-
-            Role userRole = null;
-            
-            RoleService roleService = new RoleService();
-            
-            Vector<Role> roles = roleService.getAll();
-
-            for (int i = 0; i < roles.size(); i++) {
-                if (role == roles.get(i).getRoleId()) {
-                    userRole = roles.get(i);
-                }
-            }
-
-            User user = new User(userEmail, userActive, userFirstName, userLastName, userPassword);
-            
-            user.setRole(userRole);
-
-            conn.close();
-            
-            return user;
-
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            try {
-                conn.close();
-            } catch (SQLException ex1) {
-                Logger.getLogger(UserDB.class.getName()).log(Level.SEVERE, null, ex1);
-                return null;
-            }
-            
-            return null;
-        }
-    }
-    
     
     public boolean createUser(User user) {
-        User userCheck = checkUserExists(user.getEmail());
+        EntityManagerFactory emFactory = DBUtil.getEmFactory();
+
+        EntityManager em = emFactory.createEntityManager();
+        
+        User userCheck = getUser(user.getEmail());
         
         if (userCheck != null) {
             return false;
         }
         
-        EntityManagerFactory emFactory = DBUtil.getEmFactory();
-
-        EntityManager em = emFactory.createEntityManager();
+       
 
         try {
             em.getTransaction().begin();
@@ -176,7 +81,7 @@ public class UserDB {
 
     }
 
-    public void updateUser(User user) {
+    public boolean updateUser(User user) {
         EntityManagerFactory emFactory = DBUtil.getEmFactory();
         EntityManager em = emFactory.createEntityManager();
         User ref = em.find(User.class, user.getEmail());
@@ -192,12 +97,24 @@ public class UserDB {
             trans.begin();
             em.persist(ref);
             trans.commit();
-
+            return true;
         } catch (Exception ex) {
             trans.rollback();
+            return false;
         } finally {
             em.close();
         }
+    }
+    
+     public boolean updateUser(User user, String oldEmail) {
+        EntityManagerFactory emFactory = DBUtil.getEmFactory();
+        EntityManager em = emFactory.createEntityManager();
+        
+        User oldUser = getUser(oldEmail);
+        deleteUser(oldUser);
+        
+        return createUser(user);
+        
     }
 
     public List<User> getAll() {
@@ -206,5 +123,28 @@ public class UserDB {
         EntityManager em = emFactory.createEntityManager();
 
         return em.createNamedQuery("User.findAll", User.class).getResultList();
+    }
+
+    public User getUser(String userEmail) {
+        EntityManagerFactory emFactory = DBUtil.getEmFactory();
+
+        EntityManager em = emFactory.createEntityManager();
+        
+        Query query  = em.createNamedQuery("User.findByEmail");
+
+        query.setParameter("email", userEmail);
+        
+        
+        try {
+            User userCheck = (User) query.getResultList().get(0);
+            
+            return userCheck;
+        } catch (IndexOutOfBoundsException e) {
+            return null;
+        }
+        
+        
+        
+        
     }
 }

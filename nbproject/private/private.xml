@@ -3,9 +3,23 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Arcto/OneDrive%20-%20Southern%20Alberta%20Institute%20of%20Technology/SAIT%20Year%202/SAIT%20Semester%203/CPRG-352/Final%20Project/final-project-cprg352/web/WEB-INF/register.jsp</file>
-            <file>file:/C:/Users/Arcto/OneDrive%20-%20Southern%20Alberta%20Institute%20of%20Technology/SAIT%20Year%202/SAIT%20Semester%203/CPRG-352/Final%20Project/final-project-cprg352/src/java/ca/sait/dataaccess/UserDB.java</file>
-            <file>file:/C:/Users/Arcto/OneDrive%20-%20Southern%20Alberta%20Institute%20of%20Technology/SAIT%20Year%202/SAIT%20Semester%203/CPRG-352/Final%20Project/final-project-cprg352/src/java/ca/sait/servlets/RegisterServlet.java</file>
+            <file>file:/C:/Users/Arcto/OneDrive/Documents/NetBeansProjects/FinalProjectCPRG352/web/WEB-INF/login.jsp</file>
+            <file>file:/C:/Users/Arcto/OneDrive/Documents/NetBeansProjects/FinalProjectCPRG352/src/java/ca/sait/dataaccess/ItemDB.java</file>
+            <file>file:/C:/Users/Arcto/OneDrive/Documents/NetBeansProjects/FinalProjectCPRG352/web/WEB-INF/register.jsp</file>
+            <file>file:/C:/Users/Arcto/OneDrive/Documents/NetBeansProjects/FinalProjectCPRG352/web/WEB-INF/home.jsp</file>
+            <file>file:/C:/Users/Arcto/OneDrive/Documents/NetBeansProjects/FinalProjectCPRG352/src/java/ca/sait/servlets/RegisterServlet.java</file>
+            <file>file:/C:/Users/Arcto/OneDrive/Documents/NetBeansProjects/FinalProjectCPRG352/src/java/ca/sait/services/UserService.java</file>
+            <file>file:/C:/Users/Arcto/OneDrive/Documents/NetBeansProjects/FinalProjectCPRG352/src/java/ca/sait/servlets/ForgotPasswordServlet.java</file>
+            <file>file:/C:/Users/Arcto/OneDrive/Documents/NetBeansProjects/FinalProjectCPRG352/src/java/ca/sait/servlets/ManageAccountServlet.java</file>
+            <file>file:/C:/Users/Arcto/OneDrive/Documents/NetBeansProjects/FinalProjectCPRG352/src/java/ca/sait/dataaccess/UserDB.java</file>
+            <file>file:/C:/Users/Arcto/OneDrive/Documents/NetBeansProjects/FinalProjectCPRG352/src/java/ca/sait/servlets/HomeServlet.java</file>
+            <file>file:/C:/Users/Arcto/OneDrive/Documents/NetBeansProjects/FinalProjectCPRG352/web/WEB-INF/forgot.jsp</file>
+            <file>file:/C:/Users/Arcto/OneDrive/Documents/NetBeansProjects/FinalProjectCPRG352/src/java/ca/sait/models/User.java</file>
+            <file>file:/C:/Users/Arcto/OneDrive/Documents/NetBeansProjects/FinalProjectCPRG352/src/java/ca/sait/dataaccess/DBUtil.java</file>
+            <file>file:/C:/Users/Arcto/OneDrive/Documents/NetBeansProjects/FinalProjectCPRG352/web/WEB-INF/manageaccount.jsp</file>
+            <file>file:/C:/Users/Arcto/OneDrive/Documents/NetBeansProjects/FinalProjectCPRG352/src/java/ca/sait/servlets/ManageInventoryServlet.java</file>
+            <file>file:/C:/Users/Arcto/OneDrive/Documents/NetBeansProjects/FinalProjectCPRG352/web/WEB-INF/manageinventory.jsp</file>
+            <file>file:/C:/Users/Arcto/OneDrive/Documents/NetBeansProjects/FinalProjectCPRG352/src/java/ca/sait/servlets/LoginServlet.java</file>
         </group>
     </open-files>
 </project-private>

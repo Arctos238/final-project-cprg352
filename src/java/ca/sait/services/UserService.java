@@ -20,14 +20,15 @@ public class UserService {
     public User getUser(String userEmail, String userPassword) {
         UserDB userDb = new UserDB();
         
-        return userDb.getUser(userEmail, userPassword);
+        User user = userDb.getUser(userEmail);
+        
+        if(user != null && userPassword.equals(user.getPassword())) {
+            return user;
+        } else {
+            return null;
+        }
     }
     
-        public User getAll(String userEmail, String userPassword) {
-        UserDB userDb = new UserDB();
-        
-        return userDb.getUser(userEmail, userPassword);
-    }
         
         public List<User> getAll() {
         UserDB userDb = new UserDB();
@@ -41,6 +42,31 @@ public class UserService {
 
             uDb.updateUser(user);
         }
+    }
+    
+    public boolean updateUserInfo(User user, String oldEmail) {
+        if (user != null) {
+            UserDB uDb = new UserDB();
+            
+            /**
+             * This will check to make sure no one has already used this new email
+             * in the system.
+             */
+            
+            if(!user.getEmail().equals(oldEmail)) {
+                 User checkUserEmail = uDb.getUser(user.getEmail());
+                 
+                 if (checkUserEmail != null) {
+                     return false;
+                 }
+            }
+           
+            
+
+            return uDb.updateUser(user, oldEmail);
+        }
+        
+        return false;
     }
 
     public void deleteUser(User user) {
@@ -60,5 +86,4 @@ public class UserService {
 
         return false;
     }
-    
 }
