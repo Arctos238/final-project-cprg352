@@ -26,7 +26,7 @@
         </header>
         <div class="container-fluid ">
             <div class="row">
-                <nav class="mt-3 col-md-2 d-none d-md-block bg-white sidebar">
+                <nav class="mt-3 col-md-2 d-none d-block bg-white sidebar">
                     <div class="sidebar-sticky">
                         <ul class="nav flex-column">
                             <li class="nav-item">
@@ -52,96 +52,103 @@
                 </nav>
                 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 ">
                     <div class="w-75 border border-light mb-2 mt-2 ml-1 mr-2 p-2 flex-grow-1 flex-shrink-1">
-                        <h2 class="text-center">Manage Users</h2>
+                        <h2 class="text-center">Manage Items</h2>
                         <table class="table table-striped table-light">
                             <thead>
                                 <tr>
-                                    <th scope="col">Email</th>
-                                    <th scope="col">First Name</th>
-                                    <th scope="col">Last Name</th>
-                                    <th scope="col">Role</th>
-                                    <th scope="col">Active</th>
+                                    <th scope="col">Category</th>
+                                    <th scope="col">Item</th>
+                                    <th scope="col">Price</th>
                                     <th scope="col">Edit</th>
                                     <th scope="col">Delete</th>
                                 </tr>
                             </thead>
+
                             <tbody>
-                                <c:forEach var="user" items="${users}">
+                                <c:forEach var="item" items="${usersItems}">
                                     <tr>
-                                        <td>${user.email}</td>
-                                        <td>${user.firstName}</td>
-                                        <td>${user.lastName}</td>
-                                        <td>${user.role}</td>
-                                        <td>
-                                            <c:choose>
-                                                <c:when test="${user.active==true}">
-                                                    Yes 
-                                                </c:when>    
-                                                <c:otherwise>
-                                                    No
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </td>
-                                        <td><a href="user?action=edit&user=${user.email}">Edit</a></td>
-                                        <td><a href="user?action=delete&user=${user.email}">Delete</a></td>
+                                        <td>${item.category.categoryName}</td>
+                                        <td>${item.itemName}</td>
+                                        <td>\$${item.price}</td>
+                                        <td><a href="manageinventory?action=edit&itemId=${item.itemId}">Edit</a></td>
+                                        <td><a class="text-danger" href="manageinventory?action=delete&itemId=${item.itemId}">Delete</a></td>
                                     </tr>
                                 </c:forEach>
                             </tbody>
                         </table>
-                    </div>     
-                    <c:if test="${selectedUser != null}">
-                        <form action="user" method="POST" class="bg-light w-25 text-black mb-2 mt-2 p-2 ml-1 mr-lg-3 mr-2 border border-light flex-grow-2" style="font-size: 16px">
-                            <input type="hidden" name="action" value="update">
-                            <h2 class="text-center">Edit User</h2>
-                            <div class="form-row">
-                                <div class="form-group col-md-12">
-                                    <label for="selectedEmail">Email</label>
-                                    <input required readonly="readonly" name="selectedEmail" type="email" class="form-control" id="selectedEmail" value="${selectedUser.email}">
+                    </div>   
+                    <div>
+                        <c:if test="${selectedItem == null}">
+                            <form action="manageinventory" method="POST" class="bg-light w-25 text-black mb-2 mt-2 p-2 ml-1 mr-lg-3 mr-2 border border-light flex-grow-2" style="font-size: 16px">
+                                <input type="hidden" name="action" value="create">
+                                <h2 class="text-center">Add Item</h2>
+                                <div class="form-row">
+                                    <div class="form-group col-md-12">
+                                        <label for="newItemName">Item Name</label>
+                                        <input required name="newItemName" type="text" class="form-control" id="newItemName" placeholder="Item Name">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-12">
-                                    <label for="selectedFirstName">First Name</label>
-                                    <input required name="selectedFirstName" type="text" class="form-control" id="selectedFirstName" value="${selectedUser.firstName}">
+                                <div class="form-row">
+                                    <div class="form-group col-md-12">
+                                        <label for="newItemPrice">Item Price</label>
+                                        <input required name="newItemPrice" step="any" type="number" class="form-control" id="newItemPrice" placeholder="Item Price">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-12">
-                                    <label for="selectedLastName">Last Name</label>
-                                    <input required name="selectedLastName" type="text" class="form-control" id="selectedLastName" value="${selectedUser.lastName}">
+                                <div class="form-row">
+                                    <div class="form-group col-md-12">
+                                        <label for="newItemCategory">Category</label>
+                                        <select name="newItemCategory" id="newItemCategory" class="form-control">
+                                            <option selected>Select ...</option>
+                                            <c:forEach var="category" items="${categoryList}">
+                                                <option>${category.categoryName}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-12">
-                                    <label for="selectedRole">Role</label>
-                                    <select name="selectedRole" id="selectedRole" class="form-control">
-                                        <option selected>Current: ${selectedUser.role}</option>
-                                        <c:forEach var="role" items="${roles}">
-                                            <option>${role.roleName}</option>
-                                        </c:forEach>
-                                    </select>
+                                <c:if test="${message != null}">
+                                    <div class="mt-4 text-center text-danger">
+                                        <p><c:out value ="${message.toString()}"></c:out></p>
+                                        </div>
+                                </c:if>
+                                <button type="submit" class="btn btn-primary bg-light text-dark">Save</button>
+                            </form>
+                        </c:if>
+                        <c:if test="${selectedItem != null}">
+                            <form action="manageinventory" method="POST" class="bg-light w-25 text-black mb-2 mt-2 p-2 ml-1 mr-lg-3 mr-2 border border-light flex-grow-2" style="font-size: 16px">
+                                <input type="hidden" name="action" value="update">
+                                <h2 class="text-center">Edit Item</h2>
+                                <div class="form-row">
+                                    <div class="form-group col-md-12">
+                                        <label for="updatedItemName">Item Name</label>
+                                        <input required name="updatedItemName" type="text" class="form-control" id="updatedItemName"  value="<c:out value="${selectedItem.itemName}"/>">
+                                    </div>
                                 </div>
-                                <div class="form-group col-md">
-                                    <label for="selectedActive">Active</label>
-                                    <select name="selectedActive" id="selectedActive" class="form-control">
-                                        <option selected>
-                                            <c:choose>
-                                                <c:when test="${selectedUser.active==true}">
-                                                    Current: Yes
-                                                </c:when>    
-                                                <c:otherwise>
-                                                    Current: No
-                                                </c:otherwise>
-                                            </c:choose></option>
-                                        <option>Yes</option>
-                                        <option>No</option>
-                                    </select>
+                                <div class="form-row">
+                                    <div class="form-group col-md-12">
+                                        <label for="updatedItemPrice">Item Price</label>
+                                        <input required name="updatedItemPrice" type="number" step="any" class="form-control" id="updatedItemPrice" value="<c:out value="${selectedItem.price}"/>">
+                                    </div>
                                 </div>
-                            </div>
-                            <button type="submit" class="btn btn-primary bg-light text-dark">Save</button>
-                            <a href="user?action=cancel" class="btn btn-primary bg-light text-dark">Cancel</a>
-                        </form>
-                    </c:if>
+                                <div class="form-row">
+                                    <div class="form-group col-md-12">
+                                        <label for="updatedItemCategory">Category</label>
+                                        <select name="updatedItemCategory" id="updatedItemCategory" class="form-control">
+                                            <option selected><c:out value="${selectedItem.category.categoryName}"/></option>
+                                            <c:forEach var="category" items="${categoryList}">
+                                                <option>${category.categoryName}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </div>
+                                </div>
+                                <c:if test="${message != null}">
+                                    <div class="mt-4 text-center text-danger">
+                                        <p><c:out value ="${message.toString()}"></c:out></p>
+                                        </div>
+                                </c:if>
+                                <button type="submit" class="btn btn-primary bg-light text-dark">Save</button>
+                            </form>
+                        </c:if>
+                    </div>
                 </main>
             </div>
         </div>

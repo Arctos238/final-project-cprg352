@@ -74,7 +74,7 @@ public class RegisterServlet extends HttpServlet {
 
             if (success) {
                 response.sendRedirect("home");
-                request.getSession().setAttribute("message", "Account Created!");
+                request.setAttribute("message", "Account Created!");
                 return;
             } else {
                 message = "That email is already in use";

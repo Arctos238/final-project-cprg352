@@ -4,10 +4,21 @@
  */
 package ca.sait.dataaccess;
 
+import ca.sait.models.Category;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+
 /**
  *
  * @author Arcto
  */
 public class CategoryDB {
-    
+    public List<Category> getAll() {
+        EntityManagerFactory emFactory = DBUtil.getEmFactory();
+
+        EntityManager em = emFactory.createEntityManager();
+
+        return em.createNamedQuery("Category.findAll", Category.class).getResultList();
+    }
 }

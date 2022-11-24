@@ -23,6 +23,15 @@ public class RoleDB {
         
         EntityManager em = emFactory.createEntityManager();
         
-        return em.createNamedQuery("Role.findAll", Role.class).getResultList();
+        try {
+           return em.createNamedQuery("Role.findAll", Role.class).getResultList();
+
+        } catch (Exception e){
+            e.printStackTrace();
+            return null;
+        } finally {
+            em.close();
+        }
+       
     }
 }

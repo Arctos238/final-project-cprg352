@@ -26,7 +26,7 @@
         </header>
         <div class="container-fluid ">
             <div class="row">
-                <nav class="mt-3 col-md-2 d-none d-md-block bg-white sidebar">
+                <nav class="mt-3 col-md-2 d-none d-block bg-white sidebar">
                     <div class="sidebar-sticky">
                         <ul class="nav flex-column">
                             <li class="nav-item">
@@ -70,7 +70,7 @@
                                 <td>${i}</td>
                                 <td>${item.category.categoryName}</td>
                                 <td>${item.itemName}</td>
-                                <td>${item.price}</td>
+                                <td>\$${item.price}</td>
                             </tr>
                             <c:set var = "i" value = "${i + 1}"/>
                         </c:forEach>

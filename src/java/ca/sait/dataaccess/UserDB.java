@@ -29,19 +29,17 @@ public class UserDB {
     public UserDB() {
 
     }
-    
+
     public boolean createUser(User user) {
         EntityManagerFactory emFactory = DBUtil.getEmFactory();
 
         EntityManager em = emFactory.createEntityManager();
-        
+
         User userCheck = getUser(user.getEmail());
-        
+
         if (userCheck != null) {
             return false;
         }
-        
-       
 
         try {
             em.getTransaction().begin();
@@ -90,9 +88,9 @@ public class UserDB {
         ref.setFirstName(user.getFirstName());
         ref.setLastName(user.getLastName());
         ref.setRole(user.getRole());
-        
+
         EntityTransaction trans = em.getTransaction();
-        
+
         try {
             trans.begin();
             em.persist(ref);
@@ -105,16 +103,23 @@ public class UserDB {
             em.close();
         }
     }
-    
-     public boolean updateUser(User user, String oldEmail) {
+
+    public boolean updateUser(User user, String oldEmail) {
         EntityManagerFactory emFactory = DBUtil.getEmFactory();
         EntityManager em = emFactory.createEntityManager();
-        
+
         User oldUser = getUser(oldEmail);
         deleteUser(oldUser);
-        
-        return createUser(user);
-        
+
+        try {
+            return createUser(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            em.close();
+        }
+
     }
 
     public List<User> getAll() {
@@ -122,29 +127,32 @@ public class UserDB {
 
         EntityManager em = emFactory.createEntityManager();
 
-        return em.createNamedQuery("User.findAll", User.class).getResultList();
+        try {
+            return em.createNamedQuery("User.findAll", User.class).getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            em.close();
+        }
     }
 
     public User getUser(String userEmail) {
         EntityManagerFactory emFactory = DBUtil.getEmFactory();
 
         EntityManager em = emFactory.createEntityManager();
-        
-        Query query  = em.createNamedQuery("User.findByEmail");
+
+        Query query = em.createNamedQuery("User.findByEmail");
 
         query.setParameter("email", userEmail);
-        
-        
+
         try {
             User userCheck = (User) query.getResultList().get(0);
-            
+            em.close();
             return userCheck;
         } catch (IndexOutOfBoundsException e) {
             return null;
         }
-        
-        
-        
-        
+
     }
 }

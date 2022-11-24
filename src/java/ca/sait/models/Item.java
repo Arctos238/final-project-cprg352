@@ -53,6 +53,13 @@ public class Item implements Serializable {
 
     public Item() {
     }
+    
+    public Item(String itemName, double price, Category category, User owner) {
+        this.itemName = itemName;
+        this.price = price;
+        this.category = category;
+        this.owner = owner;
+    }
 
     public Item(Integer itemId) {
         this.itemId = itemId;

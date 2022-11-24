@@ -89,13 +89,11 @@ public class ManageAccountServlet extends HttpServlet {
             message = "Current Password is incorrect";
         } else if (newFirstName.length() > 0 && newLastName.length() > 0 && newEmail.length() > 0) {
             UserService userService = new UserService();
-
-            String oldEmail = user.getEmail();
             
-            User updatedUser = new User(newEmail, true,  newFirstName,  newLastName, newPassword);
+            User updatedUser = new User(newEmail, true,  newFirstName, newLastName, newPassword);
             updatedUser.setRole(new Role(2, "regular user"));
 
-            if (userService.updateUserInfo(updatedUser, oldEmail)) {
+            if (userService.updateUserInfo(updatedUser, user)) {
                 request.getSession().setAttribute("user", updatedUser);
                 message = "Successful";
             } else {

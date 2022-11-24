@@ -26,7 +26,7 @@
         </header>
         <div class="container-fluid ">
             <div class="row">
-                <nav class="mt-3 col-md-2 d-none d-md-block bg-white sidebar">
+                <nav class="mt-3 col-md-2 d-none d-block bg-white sidebar">
                     <div class="sidebar-sticky">
                         <ul class="nav flex-column">
                             <li class="nav-item">

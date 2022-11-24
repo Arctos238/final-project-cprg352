@@ -4,10 +4,18 @@
  */
 package ca.sait.services;
 
+import ca.sait.dataaccess.CategoryDB;
+import ca.sait.models.Category;
+import java.util.List;
+
 /**
  *
  * @author Arcto
  */
 public class CategoryService {
-    
+    public List<Category> getAll() {
+        CategoryDB cateDb = new CategoryDB();
+        
+        return cateDb.getAll();
+    }
 }
