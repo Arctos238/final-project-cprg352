@@ -48,11 +48,6 @@
                                     <label class="form-check-label" for="form2Example31"> Remember me </label>
                                 </div>
                             </div>
-
-                            <div class="col">
-                                <!-- Simple link -->
-                                <a href="login?action=forgot">Forgot password?</a>
-                            </div>
                         </div>
 
                         <!-- Submit button -->

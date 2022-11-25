@@ -60,7 +60,7 @@ public class ItemService {
         return false;
     }
 
-    public int getNextItemIdNumber() {
+    private int getNextItemIdNumber() {
         ItemDB itemDb = new ItemDB();
 
         Vector<Item> itemList = (Vector) itemDb.getAll();

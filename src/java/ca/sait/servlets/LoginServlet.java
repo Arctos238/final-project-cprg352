@@ -31,10 +31,18 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getParameter("action");
+        User user = (User) request.getSession().getAttribute("user");
 
-        if (action != null && action.equals("forgot")) {
-            response.sendRedirect("forgot");
-            return;
+        if (user != null && user.getActive()) {
+            request.getSession().setAttribute("user", user);
+
+            if (user.getRole().getRoleId() == 2) {
+                response.sendRedirect("home");
+                return;
+            } else {
+                response.sendRedirect("user");
+                return;
+            }
         } else if (action != null && action.equals("register")) {
             response.sendRedirect("register");
             return;
@@ -62,8 +70,25 @@ public class LoginServlet extends HttpServlet {
 
         if (user != null && user.getActive()) {
             request.getSession().setAttribute("user", user);
-            response.sendRedirect("home");
-            return;
+            String role = null;
+            
+            if (user.getRole().getRoleId() == 2) {
+                role = "regular user";
+            } else {
+                role = "admin";
+            }
+            
+            request.getSession().setAttribute("email", user.getEmail());
+
+            request.getSession().setAttribute("role", role);
+
+            if (user.getRole().getRoleId() == 2) {
+                response.sendRedirect("home");
+                return;
+            } else {
+                response.sendRedirect("user");
+                return;
+            }
         }
 
         String message;
